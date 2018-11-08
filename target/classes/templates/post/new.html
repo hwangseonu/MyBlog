@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title th:text="${title}"></title>
+  <!-- Bootstrap core CSS -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <!--<link href="/css/layout.min.css" rel="stylesheet">-->
+</head>
+
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>게시글 쓰기</h1>
+    </div>
+    <form method="post" action="/post/">
+      <table class="table">
+        <tr>
+          <th style="padding: 13px 0 0 15px;">제목</th>
+          <td>
+            <input type="text" class="form-control" name="title"/>
+          </td>
+        </tr>
+        <tr>
+          <th style="padding: 13px 0 0 15px;">내용</th>
+          <td>
+            <textarea class="form-control" style="min-height: 60vh; max-height: 60vh;" name="content"></textarea>
+          </td>
+        </tr>
+      </table>
+      <button type="submit" class="btn-lg">쓰기</button>
+    </form>
+  </div>
+</body>
+
+</html>
