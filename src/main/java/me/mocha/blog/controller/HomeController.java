@@ -35,17 +35,23 @@ public class HomeController {
     @GetMapping("/{page}")
     public ModelAndView list(@PathVariable(value = "page") int page, ModelAndView mav) {
         List<Post> list = postRepository.findAll();
+        list.sort((v1, v2) -> v2.getId() - v1.getId());
 
-        if (page < 1) return new ModelAndView("redirect:/1");
-        int max = list.size() / 5 + (list.size() % 5 == 0 ? 0 : 1);
-        if (page > max) return new ModelAndView("redirect:/"+max);
-        int from = page * 5 - 5;
-        int to = from + (max == page && list.size() % 5 != 0 ? list.size() % 5 : 5);
+        mav.addObject("posts", list);
+
+        if (list.size() > 0) {
+            if (page < 1) return new ModelAndView("redirect:/1");
+            int max = list.size() / 5 + (list.size() % 5 == 0 ? 0 : 1);
+            if (page > max) return new ModelAndView("redirect:/" + max);
+            int from = page * 5 - 5;
+            int to = from + (max == page && list.size() % 5 != 0 ? list.size() % 5 : 5);
+            list = list.subList(from, to);
+        }
 
         mav.addObject("title", title);
         mav.addObject("description", description);
-        mav.addObject("posts", list.subList(from, to));
         mav.setViewName("home");
+        mav.addObject("posts", list);
         return mav;
     }
 
