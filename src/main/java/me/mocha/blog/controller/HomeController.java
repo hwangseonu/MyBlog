@@ -16,10 +16,10 @@ public class HomeController {
 
     private final PostRepository postRepository;
 
-    @Value("${home.title}")
+    @Value("${main.title}")
     private String title;
 
-    @Value("${home.description}")
+    @Value("${main.description}")
     private String description;
 
     @Autowired

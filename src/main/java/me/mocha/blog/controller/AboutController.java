@@ -8,10 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class AboutController {
 
-    @Value("${home.title}")
+    @Value("${main.title}")
     private String title;
 
-    @Value("${home.description}")
+    @Value("${main.description}")
     private String description;
 
     @GetMapping("/about")
