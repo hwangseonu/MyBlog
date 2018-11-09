@@ -2,6 +2,10 @@ package me.mocha.blog.view;
 
 import me.mocha.blog.model.entity.Post;
 import me.mocha.blog.model.repository.PostRepository;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -49,6 +53,12 @@ public class HomeView {
             list = list.subList(from, to);
         }
 
+        list.forEach(v -> {
+            Parser parser = Parser.builder().build();
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            v.setContent(Jsoup.parse(renderer.render(parser.parse(v.getContent()))).text());
+        });
+
         mav.addObject("category", "home");
         mav.addObject("categories", categories);
         mav.addObject("title", title);
@@ -79,6 +89,12 @@ public class HomeView {
             int to = from + (max == page && list.size() % 5 != 0 ? list.size() % 5 : 5);
             list = list.subList(from, to);
         }
+
+        list.forEach(v -> {
+            Parser parser = Parser.builder().build();
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            v.setContent(Jsoup.parse(renderer.render(parser.parse(v.getContent()))).text());
+        });
 
         mav.addObject("category", category);
         mav.addObject("categories", categories);
@@ -117,6 +133,10 @@ public class HomeView {
             mav.setViewName("error");
             return mav;
         }
+
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        post.setContent(renderer.render(parser.parse(post.getContent())));
 
         mav.addObject("category", post.getCategory().toString().toLowerCase());
         mav.addObject("categories", categories);
