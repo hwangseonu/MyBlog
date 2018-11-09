@@ -25,5 +25,14 @@
     target: '#sideNav'
   });
 
+  $('.navbar-toggler').click(function() {
+    var status = $('.navbar .social-icons').css('display') == 'none';
+    console.log(status);
+    if (status) {
+      $('.navbar .social-icons').css('display', 'block');
+    } else {
+      $('.navbar .social-icons').css('display', 'none');
+    }
+  })
 })(jQuery); // End of use strict
 

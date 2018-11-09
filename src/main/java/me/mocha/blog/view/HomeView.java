@@ -63,7 +63,9 @@ public class HomeView {
         if (page == null) page = 1;
         if (!categories.contains(category)) {
             mav.setStatus(HttpStatus.NOT_FOUND);
-            mav.setViewName("about");
+            mav.addObject("content", "해당 카테고리를 찾을 수 없습니다.");
+            mav.addObject("categories", categories);
+            mav.setViewName("error");
             return mav;
         }
         List<Post> list = postRepository.findAllByCategory(Post.Category.valueOf(category.toUpperCase()));
@@ -101,6 +103,25 @@ public class HomeView {
     public ModelAndView newPost(ModelAndView mav) {
         mav.addObject("categories", categories);
         mav.setViewName("editor");
+        return mav;
+    }
+
+    @GetMapping("/post/{pid}")
+    public ModelAndView viewPost(ModelAndView mav, @PathVariable("pid") Integer pid) {
+        Post post = postRepository.findById(pid).orElse(null);
+
+        if (post == null) {
+            mav.setStatus(HttpStatus.NOT_FOUND);
+            mav.addObject("content", "해당 포스트를 찾을 수 없습니다.");
+            mav.addObject("categories", categories);
+            mav.setViewName("error");
+            return mav;
+        }
+
+        mav.addObject("category", post.getCategory().toString().toLowerCase());
+        mav.addObject("categories", categories);
+        mav.addObject("post", post);
+        mav.setViewName("post");
         return mav;
     }
 }

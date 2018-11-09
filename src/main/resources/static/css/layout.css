@@ -90,7 +90,7 @@ p.lead {
 @media (min-width: 992px) {
   .container-fluid {
     width: auto;
-    margin-left: 20rem;
+    margin-left: 15rem;
   }
 
   #sideNav {
@@ -159,12 +159,17 @@ section.post-section .post-item .post-date {
 }
 
 @media (min-width: 768px) {
-
   section.post-section {
     min-width: 40vh;
   }
   section.post-section .post-item .post-date {
     min-width: 18rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar .social-icons {
+    display: none;
   }
 }
 
