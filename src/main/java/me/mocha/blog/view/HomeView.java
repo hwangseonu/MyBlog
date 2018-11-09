@@ -2,7 +2,6 @@ package me.mocha.blog.view;
 
 import me.mocha.blog.model.entity.Post;
 import me.mocha.blog.model.repository.PostRepository;
-import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
