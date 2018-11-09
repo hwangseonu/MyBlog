@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <th:block th:include="basic :: head"></th:block>
+  <link href="/css/layout.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+  <th:block th:include="basic :: nav(category='')"></th:block>
+  <div class="container-fluid p-0">
+    <section class="post-section p-3 p-lg-5 d-flex d-column" id="about">
+      <div class="my-auto">
+        <h2 class="mb-1 text-primary">원하시는 정보를 찾을 수 없습니다.</h2>
+        <div class="subheading mb-5" th:text="${content}"></div>
+      </div>
+    </section>
+  </div>
+  <th:block th:include="basic :: scripts"></th:block>
+</body>
+</html>
