@@ -5,22 +5,16 @@
   <link href="/css/layout.min.css" rel="stylesheet">
 </head>
 <body id="page-top">
-  <th:block th:include="basic :: nav(home='on')"></th:block>
+  <th:block th:include="basic :: nav(category = 'home')"></th:block>
   <div class="container-fluid p-0">
-    <section class="post-section p-3 p-lg-5 d-flex flex-column" id="experience" th:each="post : ${posts}">
-      <div th:id="|post-*{post.id}|" th:inline="text">
-        <h2 class="mb-5">[[${post.title}]]</h2>
-        <div class="post-item d-flex flex-column flex-md-row mb-5">
-          <div class="post-content mr-auto">
-            <p th:if="${#strings.length(post.content)} > 500">[[${#strings.substring(post.content,0,500)}]]...</pth:if>
-            <p th:unless="${#strings.length(post.content)} > 500">[[${post.content}]]</pth:if>
-          </div>
-          <div class="post-date text-md-right">
-            <span class="text-primary">[[${#temporals.format(post.createAt, 'yyyy-MM-dd')}]]</span>
-          </div>
-        </div>
+    <section class="post-section p-3 p-lg-5 d-flex d-column" id="about">
+      <div class="my-auto">
+        <h2 class="mb-1 text-primary">mocha
+          <span class="text-black-50">'s tech blog</span>
+        </h2>
+        <div class="subheading mb-5">대한민국의 청소년 개발자</div>
+        <p class="lead mb-5" th:text="${description}"></p>
       </div>
-      <hr class="m-0">
     </section>
   </div>
   <th:block th:include="basic :: scripts"></th:block>

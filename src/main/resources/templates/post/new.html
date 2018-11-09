@@ -11,6 +11,14 @@
     <form method="post" action="/post/">
       <table class="table">
         <tr>
+          <th style="padding: 13px 0 0 15px;">카테고리</th>
+          <td>
+            <select class="custom-select form-control" name="category">
+              <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+            </select>
+          </td>
+        </tr>
+        <tr>
           <th style="padding: 13px 0 0 15px;">제목</th>
           <td>
             <input type="text" class="form-control" name="title" maxlength="255"/>

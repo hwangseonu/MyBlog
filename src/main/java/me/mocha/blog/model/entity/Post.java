@@ -12,6 +12,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Post {
 
+    public enum Category {
+        IT("it"),
+        SPRING("spring"),
+        VLOG("vlog");
+
+        String stringValue;
+
+        Category(String stringValue) {
+            this.stringValue = stringValue;
+        }
+
+        @Override
+        public String toString() {
+            return this.stringValue;
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -25,12 +42,16 @@ public class Post {
 
     private LocalDateTime updateAt;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     @Builder
-    public Post(String title, String content, LocalDateTime createAt, LocalDateTime updateAt) {
+    public Post(String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Category category) {
         this.title = title;
         this.content = content;
         this.createAt = createAt;
         this.updateAt = updateAt;
+        this.category = category;
     }
 
 }

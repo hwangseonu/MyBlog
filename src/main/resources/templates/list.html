@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <th:block th:include="basic :: head"></th:block>
+  <link href="/css/layout.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+  <th:block th:include="basic :: nav"></th:block>
+  <div class="container-fluid p-0">
+    <section class="post-section p-3 p-lg-5 d-flex flex-column" id="experience" th:each="post : ${posts}">
+      <a th:href="@{'/post/' + ${post.id}}">
+        <div th:id="|post-*{post.id}|" th:inline="text">
+          <small class="mb-0">[[${post.category}]]</small>
+          <h2 class="mb-5">[[${post.title}]]</h2>
+          <div class="post-item d-flex flex-column flex-md-row mb-5">
+            <div class="post-content mr-auto">
+              <p th:if="${#strings.length(post.content)} > 500">[[${#strings.substring(post.content,0,500)}]]...</p>
+              <p th:unless="${#strings.length(post.content)} > 500">[[${post.content}]]</p>
+            </div>
+            <div class="post-date text-md-right">
+              <span class="text-primary">[[${#temporals.format(post.createAt, 'yyyy-MM-dd')}]]</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      <hr class="m-0">
+    </section>
+  </div>
+  <th:block th:include="basic :: scripts"></th:block>
+</body>
+</html>
