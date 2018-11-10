@@ -25,6 +25,34 @@
         <hr class="mb-5">
       </a>
     </section>
+    <nav aria-label="page nav">
+      <th:block th:if="${pages - page} >= 4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${page <= 1} ? 'disabled' : ''">
+            <a class="page-link" th:href="${page <= 1} ? '#' : @{'?page='+ ${page - 1}}" th:tabindex="${page <= 1} ? '-1' : '1'">prev</a>
+          </li>
+          <li class="page-item" th:each="i : ${#numbers.sequence(0, 4)}" th:classappend="${i == 0} ? 'active' : ''">
+            <a class="page-link" th:href="@{'?page='+${page+i}}" th:text="${page+i}"></a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" th:href="${page > pages} ? '#' : @{'?page='+ ${page + 1}}" th:classappend="${page > pages} ? 'disabled' : ''">next</a>
+          </li>
+        </ul>
+      </th:block>
+      <th:block th:unless="${pages - page} >= 4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${page <= 1} ? 'disabled' : ''">
+            <a class="page-link" th:href="${page <= 1} ? '#' : @{'?page='+ ${page - 1}}" th:tabindex="${page <= 1} ? '-1' : '1'">prev</a>
+          </li>
+          <li class="page-item" th:each="i : ${#numbers.sequence(0, {pages - page + 1})}" th:classappend="${i == 0} ? 'active' : ''">
+            <a class="page-link" th:href="@{'?page='+${page+i}}" th:text="${page+i}"></a>
+          </li>
+          <li class="page-item" th:classappend="${page > pages} ? 'disabled' : ''">
+            <a class="page-link" th:href="${page > pages} ? '#' : @{'?page='+ ${page + 1}}" th:tabindex="${page > pages} ? '-1' : '1'">next</a>
+          </li>
+        </ul>
+      </th:block>
+    </nav>
   </div>
   <th:block th:include="basic :: scripts"></th:block>
 </body>

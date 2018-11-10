@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class HomeView {
@@ -38,12 +39,14 @@ public class HomeView {
         List<Post> list = postRepository.findAll();
         list.sort((v1, v2) -> v2.getId() - v1.getId());
 
-        if (list.size() > 0) {
+        int size = list.size();
+
+        if (size> 0) {
             if (page < 1) return new ModelAndView("redirect:/category/?page=1");
-            int max = list.size() / 5 + (list.size() % 5 == 0 ? 0 : 1);
+            int max = size / 5 + (size % 5 == 0 ? 0 : 1);
             if (page > max) return new ModelAndView("redirect:/category/?page=" + max);
             int from = page * 5 - 5;
-            int to = from + (max == page && list.size() % 5 != 0 ? list.size() % 5 : 5);
+            int to = from + (max == page && size % 5 != 0 ? size % 5 : 5);
             list = list.subList(from, to);
         }
 
@@ -58,6 +61,8 @@ public class HomeView {
         mav.addObject("title", title);
         mav.addObject("description", description);
         mav.addObject("posts", list);
+        mav.addObject("pages", size / 5 - (size % 5 == 0 ? 1 : 0));
+        mav.addObject("page", page);
         mav.setViewName("home");
         return mav;
     }
@@ -73,14 +78,15 @@ public class HomeView {
             return mav;
         }
         List<Post> list = postRepository.findAllByCategory(Post.Category.valueOf(category.toUpperCase()));
+        int size = list.size();
         list.sort((v1, v2) -> v2.getId() - v1.getId());
 
-        if (list.size() > 0) {
+        if (size > 0) {
             if (page < 1) return new ModelAndView("redirect:/category/" + category + "/?page=1");
-            int max = list.size() / 5 + (list.size() % 5 == 0 ? 0 : 1);
+            int max = size / 5 + (size % 5 == 0 ? 0 : 1);
             if (page > max) return new ModelAndView("redirect:/category/" + category + "/?page=" + max);
             int from = page * 5 - 5;
-            int to = from + (max == page && list.size() % 5 != 0 ? list.size() % 5 : 5);
+            int to = from + (max == page && size % 5 != 0 ? size % 5 : 5);
             list = list.subList(from, to);
         }
 
@@ -95,6 +101,8 @@ public class HomeView {
         mav.addObject("title", title);
         mav.addObject("description", description);
         mav.addObject("posts", list);
+        mav.addObject("pages", size / 5 - (size % 5 == 0 ? 1 : 0));
+        mav.addObject("page", page);
         mav.setViewName("home");
         return mav;
     }
