@@ -30,6 +30,7 @@ public class PostController {
         if (!pw.equals(password)) {
             ModelAndView mav = new ModelAndView("error");
             mav.addObject("content", "패스워드를 정확히 입력하십시오.");
+            mav.addObject("categories", Post.Category.categories());
             mav.setStatus(HttpStatus.FORBIDDEN);
             return mav;
         }
@@ -45,6 +46,7 @@ public class PostController {
         } catch (IllegalArgumentException e) {
             ModelAndView mav = new ModelAndView("error");
             mav.addObject("content", "카태고리가 잘못되었습니다.");
+            mav.addObject("categories", Post.Category.categories());
             mav.setStatus(HttpStatus.NOT_FOUND);
             return mav;
         }
@@ -72,9 +74,32 @@ public class PostController {
         return new ModelAndView("redirect:/");
     }
 
-//    @PatchMapping("/{pid}")
-//    public ModelAndView edit(@PathVariable("pid") Integer pid, @RequestParam("category") String category, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("password") String pw) {
-//
-//    }
+    @PatchMapping("/{pid}")
+    public ModelAndView edit(@PathVariable("pid") Integer pid, @RequestParam("category") String category,
+                             @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("password") String pw) {
+        if (!pw.equals(password)) {
+            ModelAndView mav = new ModelAndView("error");
+            mav.setStatus(HttpStatus.FORBIDDEN);
+            mav.addObject("categories", Post.Category.categories());
+            mav.addObject("content", "패스워드를 정확히 입력해 주세요.");
+            return mav;
+        }
+
+        Post post = postRepository.findById(pid).orElse(null);
+
+        if (post == null) {
+            ModelAndView mav = new ModelAndView("error");
+            mav.setStatus(HttpStatus.NOT_FOUND);
+            mav.addObject("categories", Post.Category.categories());
+            mav.addObject("content", "해당 포스트를 찾을 수 없습니다.");
+            return mav;
+        }
+
+        post.setTitle(title);
+        post.setContent(content);
+        post.setCategory(Post.Category.valueOf(category.toUpperCase()));
+        postRepository.save(post);
+        return new ModelAndView("redirect:/post/"+post.getId());
+    }
 
 }

@@ -116,6 +116,23 @@ public class HomeView {
         return mav;
     }
 
+    @GetMapping("/editor/{pid}")
+    public ModelAndView newPost(@PathVariable("pid") Integer pid,  ModelAndView mav) {
+        Post post = postRepository.findById(pid).orElse(null);
+
+        if (post == null) {
+            mav.setViewName("error");
+            mav.setStatus(HttpStatus.NOT_FOUND);
+            mav.addObject("content", "해당 포스트를 찾을 수 없습니다.");
+            return mav;
+        }
+
+        mav.addObject("post", post);
+        mav.addObject("categories", Post.Category.categories());
+        mav.setViewName("editor");
+        return mav;
+    }
+
     @GetMapping("/post/{pid}")
     public ModelAndView viewPost(ModelAndView mav, @PathVariable("pid") Integer pid) {
         Post post = postRepository.findById(pid).orElse(null);

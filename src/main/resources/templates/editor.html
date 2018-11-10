@@ -8,26 +8,27 @@
     <div class="jumbotron">
       <h1>게시글 쓰기</h1>
     </div>
-    <form method="post" action="/post/">
+    <form th:method="post" th:action="'/post/'+(${post == null} ? '' : ${post.id})">
+      <input name="_method" type="hidden" th:value="${post == null} ? 'post' : 'patch'">
       <table class="table">
         <tr>
           <th style="padding: 13px 0 0 15px;">카테고리</th>
           <td>
             <select class="custom-select form-control" name="category">
-              <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+              <option th:each="category : ${categories}" th:value="${category}" th:text="${category}" th:selected="${post == null} ? 'false' : ${post.category == category}"></option>
             </select>
           </td>
         </tr>
         <tr>
           <th style="padding: 13px 0 0 15px;">제목</th>
           <td>
-            <input type="text" class="form-control" name="title" maxlength="255"/>
+            <input type="text" class="form-control" name="title" maxlength="255" th:value="${post == null} ? '' : ${post.title}"/>
           </td>
         </tr>
         <tr>
           <th style="padding: 13px 0 0 15px;">내용</th>
           <td>
-            <textarea class="form-control" style="min-height: 40vh; max-height: 40vh;" name="content"></textarea>
+            <textarea class="form-control" style="min-height: 40vh; max-height: 40vh;" name="content" th:text="${post == null} ? '' : ${post.content}"></textarea>
           </td>
         </tr>
         <tr>

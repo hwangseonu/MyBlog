@@ -16,3 +16,7 @@ function delete_post(post) {
     location.href = '/';
   })
 }
+
+function edit_post(post) {
+  location.href = '/editor/'+post;
+}

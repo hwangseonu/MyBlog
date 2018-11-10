@@ -27,7 +27,7 @@
         <li class="nav-item" th:classappend="${category == 'home'} ? 'active' : ''">
           <a class="nav-link js-scroll-trigger" href="/">Home</a>
         </li>
-        <li th:each="item : ${categories}" class="nav-item" th:classappend="${category == item} ? 'active' : ''">
+        <li th:each="item : ${categories}" class="nav-item" th:classappend="${#strings.equals(item, category)} ? 'active' : ''">
           <a class="nav-link js-scroll-trigger" th:href="@{'/category/' + ${item}}" th:text="${item}"></a>
         </li>
         <li class="nav-item" th:classappend="${category == 'about'} ? 'active' : ''">
