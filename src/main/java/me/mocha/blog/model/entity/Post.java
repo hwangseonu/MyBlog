@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,12 +17,20 @@ public class Post {
     public enum Category {
         IT("it"),
         SPRING("spring"),
-        VLOG("vlog");
+        DAILY("daily");
 
         String stringValue;
 
         Category(String stringValue) {
             this.stringValue = stringValue;
+        }
+
+        public static List<Category> categories() {
+            List<Category> list = new ArrayList<>();
+            list.add(IT);
+            list.add(SPRING);
+            list.add(DAILY);
+            return list;
         }
 
         @Override

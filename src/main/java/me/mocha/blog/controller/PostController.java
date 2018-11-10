@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/post")
@@ -22,14 +20,9 @@ public class PostController {
 
     private final PostRepository postRepository;
 
-    private static List<String> categories = new ArrayList<>();
-
     @Autowired
     public PostController(PostRepository postRepository) {
         this.postRepository = postRepository;
-        categories.add(Post.Category.IT.toString());
-        categories.add(Post.Category.SPRING.toString());
-        categories.add(Post.Category.VLOG.toString());
     }
 
     @PostMapping("/")
@@ -50,22 +43,38 @@ public class PostController {
                     .build());
             return new ModelAndView("redirect:/post/" + result.getId());
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
             ModelAndView mav = new ModelAndView("error");
+            mav.addObject("content", "카태고리가 잘못되었습니다.");
             mav.setStatus(HttpStatus.NOT_FOUND);
             return mav;
         }
     }
 
     @DeleteMapping("/{pid}")
-    public ModelAndView delete(@PathVariable("pid") Integer pid, ModelAndView mav) {
-        if (pid == null) {
+    public ModelAndView delete(@PathVariable("pid") Integer pid, ModelAndView mav, @RequestParam("password") String pw) {
+        if (!pw.equals(password)) {
             mav.setViewName("error");
-            mav.addObject("content", "해당 포스트를 찾을 수 없습니다.");
-            mav.addObject("categories", categories);
+            mav.setStatus(HttpStatus.FORBIDDEN);
+            mav.addObject("content", "패스워드를 정확히 입력해 주세요.");
             return mav;
         }
+
+        Post post = postRepository.findById(pid).orElse(null);
+
+        if (post == null) {
+            mav.setViewName("error");
+            mav.setStatus(HttpStatus.NOT_FOUND);
+            mav.addObject("content", "해당 포스트를 찾을 수 없습니다.");
+            return mav;
+        }
+
+        postRepository.delete(post);
         return new ModelAndView("redirect:/");
     }
+
+//    @PatchMapping("/{pid}")
+//    public ModelAndView edit(@PathVariable("pid") Integer pid, @RequestParam("category") String category, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("password") String pw) {
+//
+//    }
 
 }

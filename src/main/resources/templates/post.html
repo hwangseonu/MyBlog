@@ -13,6 +13,7 @@
       <header class="post-header">
         <h3 class="mb-5" th:text="${post.title}"></h3>
         <small>[[${#temporals.format(post.createAt, 'yyyy-MM-dd')}]]</small>
+        <button type="button" class="btn-danger btn-post-delete" th:onclick="'delete_post(' + ${post.id} + ');'">삭제</button>
         <hr class="mb-5"/>
       </header>
       <section class="post-content">
@@ -21,6 +22,7 @@
     </div>
   </div>
   <th:block th:include="basic :: scripts"></th:block>
+  <script src="/js/listener.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 </body>

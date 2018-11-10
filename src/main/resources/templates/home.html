@@ -11,7 +11,7 @@
       <a th:each="post : ${posts}" th:href="@{'/post/' + ${post.id}}">
         <div th:id="|post-*{post.id}|" th:inline="text">
           <small class="mb-0">[[${post.category}]]</small>
-          <h2 class="mb-5">[[${post.title}]]</h2>
+          <h3 class="mb-5">[[${post.title}]]</h3>
           <div class="post-item d-flex flex-column flex-md-row mb-5">
             <div class="post-content mr-auto">
               <p th:if="${#strings.length(post.content)} > 500">[[${#strings.substring(post.content,0,500)}]]...</p>

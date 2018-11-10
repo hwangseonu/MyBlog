@@ -27,13 +27,8 @@ public class HomeView {
 
     private final PostRepository postRepository;
 
-    private static List<String> categories = new ArrayList<>();
-
     public HomeView(PostRepository postRepository) {
         this.postRepository = postRepository;
-        categories.add(Post.Category.IT.toString());
-        categories.add(Post.Category.SPRING.toString());
-        categories.add(Post.Category.VLOG.toString());
     }
 
     @GetMapping({"/", "/category"})
@@ -59,7 +54,7 @@ public class HomeView {
         });
 
         mav.addObject("category", "home");
-        mav.addObject("categories", categories);
+        mav.addObject("categories", Post.Category.categories());
         mav.addObject("title", title);
         mav.addObject("description", description);
         mav.addObject("posts", list);
@@ -70,10 +65,10 @@ public class HomeView {
     @GetMapping("/category/{category}")
     public ModelAndView listAboutCategory(@PathVariable("category") String category, @Param("page") Integer page, ModelAndView mav) {
         if (page == null) page = 1;
-        if (!categories.contains(category)) {
+        if (!Post.Category.categories().contains(Post.Category.valueOf(category.toUpperCase()))) {
             mav.setStatus(HttpStatus.NOT_FOUND);
             mav.addObject("content", "해당 카테고리를 찾을 수 없습니다.");
-            mav.addObject("categories", categories);
+            mav.addObject("categories", Post.Category.categories());
             mav.setViewName("error");
             return mav;
         }
@@ -96,7 +91,7 @@ public class HomeView {
         });
 
         mav.addObject("category", category);
-        mav.addObject("categories", categories);
+        mav.addObject("categories", Post.Category.categories());
         mav.addObject("title", title);
         mav.addObject("description", description);
         mav.addObject("posts", list);
@@ -107,7 +102,7 @@ public class HomeView {
     @GetMapping("/about")
     public ModelAndView about(ModelAndView mav) {
         mav.addObject("category", "about");
-        mav.addObject("categories", categories);
+        mav.addObject("categories", Post.Category.categories());
         mav.addObject("title", title);
         mav.addObject("description", description);
         mav.setViewName("about");
@@ -116,7 +111,7 @@ public class HomeView {
 
     @GetMapping("/editor")
     public ModelAndView newPost(ModelAndView mav) {
-        mav.addObject("categories", categories);
+        mav.addObject("categories", Post.Category.categories());
         mav.setViewName("editor");
         return mav;
     }
@@ -128,7 +123,7 @@ public class HomeView {
         if (post == null) {
             mav.setStatus(HttpStatus.NOT_FOUND);
             mav.addObject("content", "해당 포스트를 찾을 수 없습니다.");
-            mav.addObject("categories", categories);
+            mav.addObject("categories", Post.Category.categories());
             mav.setViewName("error");
             return mav;
         }
@@ -138,7 +133,7 @@ public class HomeView {
         post.setContent(renderer.render(parser.parse(post.getContent())));
 
         mav.addObject("category", post.getCategory().toString().toLowerCase());
-        mav.addObject("categories", categories);
+        mav.addObject("categories", Post.Category.categories());
         mav.addObject("post", post);
         mav.setViewName("post");
         return mav;
