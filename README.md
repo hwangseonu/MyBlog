@@ -8,9 +8,9 @@ spring boot 로 만드는 블로그
 - html
 - css
 - sass
-## Database
+### Database
 - mariaDB
-## ORM
+### ORM
 - JPA
 ### Server
 - tomcat (embedded)
